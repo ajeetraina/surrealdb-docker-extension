@@ -62,14 +62,38 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
     setMessage(null);
 
     try {
-      await ddClient.extension.vm?.cli.exec('docker-compose', ['up', '-d']);
-      setMessage({ type: 'success', text: 'SurrealDB started successfully!' });
+      const containerName = 'surrealdb-ext';
+      
+      // Remove any existing container with the same name (stopped or running)
+      try {
+        await ddClient.docker.cli.exec('rm', ['-f', containerName]);
+        console.log('Removed existing container');
+      } catch (e) {
+        console.log('No existing container to remove');
+      }
+
+      // Create and start new container on port 8001
+      await ddClient.docker.cli.exec('run', [
+        '-d',
+        '--name', containerName,
+        '-p', '8001:8000',
+        '-v', 'surrealdb_data:/mydata',
+        'surrealdb/surrealdb:latest',
+        'start',
+        '--log', 'trace',
+        '--user', 'root',
+        '--pass', 'root'
+      ]);
+      
+      setMessage({ type: 'success', text: 'SurrealDB started successfully on port 8001!' });
       setTimeout(() => {
         onStatusChange();
         fetchContainerInfo();
       }, 2000);
     } catch (error: any) {
-      setMessage({ type: 'error', text: `Failed to start SurrealDB: ${error.message}` });
+      console.error('Start error:', error);
+      const errorMsg = error?.stderr || error?.message || JSON.stringify(error) || 'Unknown error';
+      setMessage({ type: 'error', text: `Failed to start SurrealDB: ${errorMsg}` });
     } finally {
       setLoading(false);
     }
@@ -80,14 +104,16 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
     setMessage(null);
 
     try {
-      await ddClient.extension.vm?.cli.exec('docker-compose', ['down']);
+      await ddClient.docker.cli.exec('stop', ['surrealdb-ext']);
       setMessage({ type: 'success', text: 'SurrealDB stopped successfully!' });
       setTimeout(() => {
         onStatusChange();
         fetchContainerInfo();
       }, 1000);
     } catch (error: any) {
-      setMessage({ type: 'error', text: `Failed to stop SurrealDB: ${error.message}` });
+      console.error('Stop error:', error);
+      const errorMsg = error?.stderr || error?.message || JSON.stringify(error) || 'Unknown error';
+      setMessage({ type: 'error', text: `Failed to stop SurrealDB: ${errorMsg}` });
     } finally {
       setLoading(false);
     }
@@ -98,14 +124,16 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
     setMessage(null);
 
     try {
-      await ddClient.extension.vm?.cli.exec('docker-compose', ['restart']);
+      await ddClient.docker.cli.exec('restart', ['surrealdb-ext']);
       setMessage({ type: 'success', text: 'SurrealDB restarted successfully!' });
       setTimeout(() => {
         onStatusChange();
         fetchContainerInfo();
       }, 2000);
     } catch (error: any) {
-      setMessage({ type: 'error', text: `Failed to restart SurrealDB: ${error.message}` });
+      console.error('Restart error:', error);
+      const errorMsg = error?.stderr || error?.message || JSON.stringify(error) || 'Unknown error';
+      setMessage({ type: 'error', text: `Failed to restart SurrealDB: ${errorMsg}` });
     } finally {
       setLoading(false);
     }
@@ -142,7 +170,7 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
                     Image: surrealdb/surrealdb:latest
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Port: 8000
+                    Port: 8001 (Host) → 8000 (Container)
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Default Credentials: root/root
@@ -194,7 +222,7 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
               </Typography>
 
               <Typography variant="body2" paragraph>
-                2. Access SurrealDB at <code>http://localhost:8000</code>
+                2. Access SurrealDB at <code>http://localhost:8001</code>
               </Typography>
 
               <Typography variant="body2" paragraph>

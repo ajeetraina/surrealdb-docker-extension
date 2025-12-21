@@ -1,6 +1,6 @@
 .PHONY: help build install update remove clean dev
 
-EXTENSION_NAME = raveendiranrr/surrealdb-docker-extension
+EXTENSION_NAME = ajeetraina777/surrealdb-docker-extension
 VERSION = latest
 
 help: ## Show this help message

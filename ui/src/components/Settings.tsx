@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Typography,
+  Card,
+  CardContent,
   TextField,
   Button,
-  Paper,
-  Stack,
-  Switch,
+  Typography,
+  Grid,
   FormControlLabel,
-  Divider,
+  Switch,
   Alert,
 } from '@mui/material';
-import {
-  Settings as SettingsIcon,
-  Save as SaveIcon,
-} from '@mui/icons-material';
+import { Save as SaveIcon } from '@mui/icons-material';
 
-const Settings: React.FC = () => {
+interface SettingsProps {
+  onSave: (settings: any) => void;
+}
+
+const Settings: React.FC<SettingsProps> = ({ onSave }) => {
   const [settings, setSettings] = useState({
     host: 'localhost',
-    port: '8000',
+    port: '8001',
     username: 'root',
     password: 'root',
     namespace: 'test',
@@ -30,155 +31,140 @@ const Settings: React.FC = () => {
 
   const [saved, setSaved] = useState(false);
 
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('surrealdb-settings');
+    if (savedSettings) {
+      setSettings(JSON.parse(savedSettings));
+    }
+  }, []);
+
   const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setSettings({
       ...settings,
       [field]: event.target.type === 'checkbox' ? event.target.checked : event.target.value,
     });
-    setSaved(false);
   };
 
   const handleSave = () => {
-    // In a real implementation, save to extension storage
-    console.log('Saving settings:', settings);
+    localStorage.setItem('surrealdb-settings', JSON.stringify(settings));
+    onSave(settings);
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
 
   return (
     <Box>
-      <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
-        <SettingsIcon color="primary" fontSize="large" />
-        <Typography variant="h5">Settings</Typography>
-      </Stack>
-
       {saved && (
         <Alert severity="success" sx={{ mb: 2 }}>
           Settings saved successfully!
         </Alert>
       )}
 
-      <Paper elevation={2} sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          Connection Settings
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-          Configure your SurrealDB connection parameters
-        </Typography>
-
-        <Stack spacing={3}>
-          <TextField
-            label="Host"
-            value={settings.host}
-            onChange={handleChange('host')}
-            fullWidth
-            helperText="The hostname or IP address of your SurrealDB instance"
-          />
-
-          <TextField
-            label="Port"
-            value={settings.port}
-            onChange={handleChange('port')}
-            fullWidth
-            helperText="The port number (default: 8000)"
-          />
-
-          <Divider />
-
-          <TextField
-            label="Username"
-            value={settings.username}
-            onChange={handleChange('username')}
-            fullWidth
-          />
-
-          <TextField
-            label="Password"
-            type="password"
-            value={settings.password}
-            onChange={handleChange('password')}
-            fullWidth
-          />
-
-          <Divider />
-
-          <TextField
-            label="Namespace"
-            value={settings.namespace}
-            onChange={handleChange('namespace')}
-            fullWidth
-            helperText="The namespace to use for your database"
-          />
-
-          <TextField
-            label="Database"
-            value={settings.database}
-            onChange={handleChange('database')}
-            fullWidth
-            helperText="The database name to connect to"
-          />
-
-          <Divider />
-
-          <Typography variant="h6">
-            Advanced Options
+      <Card>
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            Connection Settings
           </Typography>
 
-          <FormControlLabel
-            control={
-              <Switch
-                checked={settings.autoConnect}
-                onChange={handleChange('autoConnect')}
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Host"
+                value={settings.host}
+                onChange={handleChange('host')}
+                helperText="SurrealDB server hostname"
               />
-            }
-            label="Auto-connect on extension load"
-          />
+            </Grid>
 
-          <FormControlLabel
-            control={
-              <Switch
-                checked={settings.strictMode}
-                onChange={handleChange('strictMode')}
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Port"
+                value={settings.port}
+                onChange={handleChange('port')}
+                helperText="Server port (default: 8001)"
               />
-            }
-            label="Enable strict mode"
-          />
+            </Grid>
 
-          <Button
-            variant="contained"
-            startIcon={<SaveIcon />}
-            onClick={handleSave}
-            sx={{ mt: 2 }}
-          >
-            Save Settings
-          </Button>
-        </Stack>
-      </Paper>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Username"
+                value={settings.username}
+                onChange={handleChange('username')}
+                helperText="Database username"
+              />
+            </Grid>
 
-      <Paper elevation={2} sx={{ p: 3, mt: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          About SurrealDB Extension
-        </Typography>
-        <Typography variant="body2" color="text.secondary" paragraph>
-          Version: 0.1.0
-        </Typography>
-        <Typography variant="body2" color="text.secondary" paragraph>
-          This extension provides a seamless way to manage SurrealDB databases
-          directly from Docker Desktop. Features include database management,
-          query execution, and data exploration.
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          For more information, visit{' '}
-          <a
-            href="https://surrealdb.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: '#8B5CF6' }}
-          >
-            surrealdb.com
-          </a>
-        </Typography>
-      </Paper>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                value={settings.password}
+                onChange={handleChange('password')}
+                helperText="Database password"
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Namespace"
+                value={settings.namespace}
+                onChange={handleChange('namespace')}
+                helperText="Database namespace"
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Database"
+                value={settings.database}
+                onChange={handleChange('database')}
+                helperText="Database name"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={settings.autoConnect}
+                    onChange={handleChange('autoConnect')}
+                  />
+                }
+                label="Auto-connect on extension load"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={settings.strictMode}
+                    onChange={handleChange('strictMode')}
+                  />
+                }
+                label="Strict mode (enforce data types)"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                startIcon={<SaveIcon />}
+                onClick={handleSave}
+                size="large"
+              >
+                Save Settings
+              </Button>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
     </Box>
   );
 };
