@@ -30,18 +30,18 @@ A Docker Desktop extension for managing SurrealDB databases with an intuitive UI
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/ajeetraina/surrealdb-docker-extension.git
+   git clone https://github.com/ajeetraina777/surrealdb-docker-extension.git
    cd surrealdb-docker-extension
    ```
 
 2. Build the extension:
    ```bash
-   docker build -t ajeetraina/surrealdb-docker-extension:latest .
+   docker build -t ajeetraina777/surrealdb-docker-extension:latest .
    ```
 
 3. Install the extension:
    ```bash
-   docker extension install ajeetraina/surrealdb-docker-extension:latest
+   docker extension install ajeetraina777/surrealdb-docker-extension:latest
    ```
 
 ## Usage
