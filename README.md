@@ -196,16 +196,16 @@ surrealdb-docker-extension/
 
 ```bash
 # Build the extension
-docker build -t ajeetraina/surrealdb-docker-extension:latest .
+docker build -t ajeetraina/surrealdb-docker-extension:1.0.0 .
 
 # Install for testing
-docker extension install ajeetraina/surrealdb-docker-extension:latest
+docker extension install ajeetraina/surrealdb-docker-extension:1.0.0
 
 # Update the extension
-docker extension update ajeetraina/surrealdb-docker-extension:latest
+docker extension update ajeetraina/surrealdb-docker-extension:1.0.0
 
 # Remove the extension
-docker extension rm ajeetraina/surrealdb-docker-extension
+docker extension rm ajeetraina/surrealdb-docker-extension:1.0.0
 ```
 
 ### Local Development
