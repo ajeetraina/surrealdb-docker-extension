@@ -57,12 +57,12 @@ graph TB
 
 2. Build the extension:
    ```bash
-   docker build -t ajeetraina777/surrealdb-docker-extension:latest .
+   docker build -t ajeetraina777/surrealdb-docker-extension:1.0.0 .
    ```
 
 3. Install the extension:
    ```bash
-   docker extension install ajeetraina777/surrealdb-docker-extension:latest
+   docker extension install ajeetraina777/surrealdb-docker-extension:1.0.0
    ```
 
 ## Usage
@@ -221,56 +221,10 @@ npm run dev
 Then use the Docker Extension CLI to enable dev mode:
 
 ```bash
-docker extension dev debug ajeetraina/surrealdb-docker-extension
-docker extension dev ui-source ajeetraina/surrealdb-docker-extension http://localhost:3000
+docker extension dev debug ajeetraina777/surrealdb-docker-extension:1.0.0
+docker extension dev ui-source ajeetraina777/surrealdb-docker-extension:1.0.0 http://localhost:3000
 ```
 
-## Troubleshooting
 
-### Extension won't install
 
-- Ensure you have the latest version of Docker Desktop
-- Check that Docker Desktop Extensions are enabled in settings
-- Try restarting Docker Desktop
 
-### Database won't start
-
-- Check if port 8000 is already in use
-- Verify Docker has enough resources allocated
-- Check Docker Desktop logs for errors
-
-### Connection errors
-
-- Verify SurrealDB is running (green status in Database Manager)
-- Check connection settings in the Settings tab
-- Ensure firewall isn't blocking port 8000
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## Resources
-
-- [SurrealDB Documentation](https://surrealdb.com/docs)
-- [Docker Extensions SDK](https://docs.docker.com/desktop/extensions-sdk/)
-- [SurrealDB GitHub](https://github.com/surrealdb/surrealdb)
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- SurrealDB team for creating an amazing database
-- Docker team for the Extensions SDK
-- Material-UI for the component library
-
-## Support
-
-For issues and feature requests, please use the [GitHub Issues](https://github.com/ajeetraina/surrealdb-docker-extension/issues) page.
