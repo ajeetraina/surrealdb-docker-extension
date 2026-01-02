@@ -62,37 +62,25 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
     setMessage(null);
 
     try {
-      const containerName = 'surrealdb-ext';
-      
-      // Remove any existing container with the same name (stopped or running)
-      try {
-        await ddClient.docker.cli.exec('rm', ['-f', containerName]);
-        console.log('Removed existing container');
-      } catch (e) {
-        console.log('No existing container to remove');
-      }
-
-      // Create and start new container on port 8001
-      await ddClient.docker.cli.exec('run', [
-        '-d',
-        '--name', containerName,
-        '-p', '8001:8000',
-        '-v', 'surrealdb_data:/mydata',
-        'surrealdb/surrealdb:latest',
-        'start',
-        '--log', 'trace',
-        '--user', 'root',
-        '--pass', 'root'
+      const result = await ddClient.extension.vm?.cli.exec('docker-compose', [
+        '-f',
+        '/docker-compose.yaml',
+        'up',
+        '-d'
       ]);
       
-      setMessage({ type: 'success', text: 'SurrealDB started successfully on port 8001!' });
+      if (result?.stderr) {
+        console.error('Docker compose stderr:', result.stderr);
+      }
+      
+      setMessage({ type: 'success', text: 'SurrealDB started successfully!' });
       setTimeout(() => {
         onStatusChange();
         fetchContainerInfo();
       }, 2000);
     } catch (error: any) {
       console.error('Start error:', error);
-      const errorMsg = error?.stderr || error?.message || JSON.stringify(error) || 'Unknown error';
+      const errorMsg = error?.message || error?.stderr || JSON.stringify(error) || 'Unknown error';
       setMessage({ type: 'error', text: `Failed to start SurrealDB: ${errorMsg}` });
     } finally {
       setLoading(false);
@@ -104,7 +92,16 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
     setMessage(null);
 
     try {
-      await ddClient.docker.cli.exec('stop', ['surrealdb-ext']);
+      const result = await ddClient.extension.vm?.cli.exec('docker-compose', [
+        '-f',
+        '/docker-compose.yaml',
+        'down'
+      ]);
+      
+      if (result?.stderr) {
+        console.error('Docker compose stderr:', result.stderr);
+      }
+      
       setMessage({ type: 'success', text: 'SurrealDB stopped successfully!' });
       setTimeout(() => {
         onStatusChange();
@@ -112,7 +109,7 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
       }, 1000);
     } catch (error: any) {
       console.error('Stop error:', error);
-      const errorMsg = error?.stderr || error?.message || JSON.stringify(error) || 'Unknown error';
+      const errorMsg = error?.message || error?.stderr || JSON.stringify(error) || 'Unknown error';
       setMessage({ type: 'error', text: `Failed to stop SurrealDB: ${errorMsg}` });
     } finally {
       setLoading(false);
@@ -124,7 +121,16 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
     setMessage(null);
 
     try {
-      await ddClient.docker.cli.exec('restart', ['surrealdb-ext']);
+      const result = await ddClient.extension.vm?.cli.exec('docker-compose', [
+        '-f',
+        '/docker-compose.yaml',
+        'restart'
+      ]);
+      
+      if (result?.stderr) {
+        console.error('Docker compose stderr:', result.stderr);
+      }
+      
       setMessage({ type: 'success', text: 'SurrealDB restarted successfully!' });
       setTimeout(() => {
         onStatusChange();
@@ -132,7 +138,7 @@ const DatabaseManager: React.FC<DatabaseManagerProps> = ({ onStatusChange, conne
       }, 2000);
     } catch (error: any) {
       console.error('Restart error:', error);
-      const errorMsg = error?.stderr || error?.message || JSON.stringify(error) || 'Unknown error';
+      const errorMsg = error?.message || error?.stderr || JSON.stringify(error) || 'Unknown error';
       setMessage({ type: 'error', text: `Failed to restart SurrealDB: ${errorMsg}` });
     } finally {
       setLoading(false);

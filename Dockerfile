@@ -23,7 +23,7 @@ LABEL org.opencontainers.image.title="SurrealDB" \
     com.docker.extension.publisher-url="https://github.com/Raveendiran-RR" \
     com.docker.extension.additional-urls='[{"title":"SurrealDB Website","url":"https://surrealdb.com/"},{"title":"Documentation","url":"https://surrealdb.com/docs/surrealdb"},{"title":"Source Code","url":"https://github.com/Raveendiran-RR/surrealdb-docker-extension"}]' \
     com.docker.extension.categories="Database" \
-    com.docker.extension.changelog="<ul><li>Initial release with SurrealDB Extension and Surrealist GUI</li><li>Added comprehensive Help tab with tutorials</li><li>Automated demo data import</li></ul>"
+    com.docker.extension.changelog="<ul><li>Initial release with SurrealDB Extension</li><li>Added comprehensive Help tab with tutorials</li></ul>"
 
 COPY metadata.json .
 COPY surrealdb.svg .
