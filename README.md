@@ -75,7 +75,7 @@ graph TB
 2. Navigate to the Extensions section
 3. Click on "SurrealDB"
 4. Click on the surrealist tab and create a new connection
-5. Choose http and type : http://localhost:8000 with username and password as root
+5. Choose connect type http in the remote address an provide : http://localhost:8000 with username and password as root
 
 ### How the data flows :
 ```mermaid
