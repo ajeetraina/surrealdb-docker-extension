@@ -59,12 +59,12 @@ graph TB
 
 2. Build the extension:
    ```bash
-   docker build -t ajeetraina777/surrealdb-docker-extension:1.0.0 .
+   docker build -t raveendiranrr/surrealdb-docker-extension:1.0.0 .
    ```
 
 3. Install the extension:
    ```bash
-   docker extension install ajeetraina777/surrealdb-docker-extension:1.0.0
+   docker extension install raveendiranrr/surrealdb-docker-extension:1.0.0
    ```
 
 ## Usage
@@ -74,8 +74,8 @@ graph TB
 1. Open Docker Desktop
 2. Navigate to the Extensions section
 3. Click on "SurrealDB"
-4. In the "Database Manager" tab, click "Start"
-5. Wait for the database to initialize
+4. Click on the surrealist tab and create a new connection
+5. Choose http and type : http://localhost:8000 with username and password as root
 
 ### How the data flows :
 ```mermaid
@@ -223,8 +223,8 @@ npm run dev
 Then use the Docker Extension CLI to enable dev mode:
 
 ```bash
-docker extension dev debug ajeetraina777/surrealdb-docker-extension:1.0.0
-docker extension dev ui-source ajeetraina777/surrealdb-docker-extension:1.0.0 http://localhost:3000
+docker extension dev debug raveendiranrr/surrealdb-docker-extension:1.0.0
+docker extension dev ui-source raveendiranrr/surrealdb-docker-extension:1.0.0 http://localhost:3000
 ```
 
 
