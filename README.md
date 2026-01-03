@@ -18,16 +18,13 @@ A Docker Desktop extension for managing SurrealDB databases with an intuitive UI
 ```mermaid
 graph TB
     A[Docker Desktop] --> B[SurrealDB Extension]
-    B --> C[Database Manager]
-    B --> D[Query Editor]
-    B --> E[Data Explorer]
-    B --> F[Settings Panel]
+    B --> C[Database Manager-Surrealist]
+
     
     C --> G[SurrealDB Container]
-    D --> G
-    E --> G
+
     
-    G --> H[(SurrealDB Database)]
+    C --> H[(SurrealDB Database)]
     
     style A fill:#2496ED,color:#fff
     style B fill:#FF00A0,color:#fff
