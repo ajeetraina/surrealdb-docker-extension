@@ -1,8 +1,10 @@
 # SurrealDB Docker Extension
 
-A community maintained Docker Desktop extension for spinning a SurrealDB instance with SurrealistUI right within Docker Desktop.
+A Docker Desktop extension created by the community for managing SurrealDB databases.
 
-<img width="1490" height="822" alt="image" src="https://github.com/user-attachments/assets/d35356cd-7a79-4c09-8652-00e862dd518c" />
+<img width="1908" height="1002" alt="image" src="https://github.com/user-attachments/assets/3e9ca240-717e-483d-9e69-21c8743207da" />
+
+
 
 
 ## Features
@@ -17,16 +19,13 @@ A community maintained Docker Desktop extension for spinning a SurrealDB instanc
 ```mermaid
 graph TB
     A[Docker Desktop] --> B[SurrealDB Extension]
-    B --> C[Database Manager]
-    B --> D[Query Editor]
-    B --> E[Data Explorer]
-    B --> F[Settings Panel]
+    B --> C[Database Manager-Surrealist]
+
     
     C --> G[SurrealDB Container]
-    D --> G
-    E --> G
+
     
-    G --> H[(SurrealDB Database)]
+    C --> H[(SurrealDB Database)]
     
     style A fill:#2496ED,color:#fff
     style B fill:#FF00A0,color:#fff
@@ -52,18 +51,18 @@ graph TB
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/ajeetraina777/surrealdb-docker-extension.git
+   git clone https://github.com/Raveendiran-RR/surrealdb-docker-extension.git
    cd surrealdb-docker-extension
    ```
 
 2. Build the extension:
    ```bash
-   docker build -t ajeetraina777/surrealdb-docker-extension:1.0.0 .
+   docker build -t raveendiranrr/surrealdb-docker-extension:1.0.0 .
    ```
 
 3. Install the extension:
    ```bash
-   docker extension install ajeetraina777/surrealdb-docker-extension:1.0.0
+   docker extension install raveendiranrr/surrealdb-docker-extension:1.0.0
    ```
 
 ## Usage
@@ -73,8 +72,8 @@ graph TB
 1. Open Docker Desktop
 2. Navigate to the Extensions section
 3. Click on "SurrealDB"
-4. In the "Database Manager" tab, click "Start"
-5. Wait for the database to initialize
+4. Click on the surrealist tab and create a new connection
+5. Choose connect type http in the remote address an provide : http://localhost:8000 with username and password as root
 
 ### How the data flows :
 ```mermaid
@@ -197,16 +196,16 @@ surrealdb-docker-extension/
 
 ```bash
 # Build the extension
-docker build -t ajeetraina/surrealdb-docker-extension:1.0.0 .
+docker build -t raveendiranrr/surrealdb-docker-extension:1.0.0 .
 
 # Install for testing
-docker extension install ajeetraina/surrealdb-docker-extension:1.0.0
+docker extension install raveendiranrr/surrealdb-docker-extension:1.0.0
 
 # Update the extension
-docker extension update ajeetraina/surrealdb-docker-extension:1.0.0
+docker extension update raveendiranrr/surrealdb-docker-extension:1.0.0
 
 # Remove the extension
-docker extension rm ajeetraina/surrealdb-docker-extension:1.0.0
+docker extension rm raveendiranrr/surrealdb-docker-extension:1.0.0
 ```
 
 ### Local Development
@@ -222,8 +221,8 @@ npm run dev
 Then use the Docker Extension CLI to enable dev mode:
 
 ```bash
-docker extension dev debug ajeetraina777/surrealdb-docker-extension:1.0.0
-docker extension dev ui-source ajeetraina777/surrealdb-docker-extension:1.0.0 http://localhost:3000
+docker extension dev debug raveendiranrr/surrealdb-docker-extension:1.0.0
+docker extension dev ui-source raveendiranrr/surrealdb-docker-extension:1.0.0 http://localhost:3000
 ```
 
 
