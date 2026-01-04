@@ -41,24 +41,23 @@ export function App() {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ p: 0, height: '100vh' }}>
+    <Container maxWidth="xl" id="#main" sx={{ p: '0 !important', height: '100vh' }}>
       <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Paper sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <Box sx={{ px: 2, pt: 2, pb: 1, flexShrink: 0 }}>
-            <Typography variant="h5" component="h1" fontWeight="bold">
-              SurrealDB Extension
+          <Box sx={{ display: 'flex', alignItems: 'center', px: 2, gap: 2, flexShrink: 0 }}>
+            <Typography variant="h5" component="h1" fontWeight="bold" sx={{ py: 1 }}>
+              SurrealDB
             </Typography>
+            <Tabs
+              value={tabValue}
+              onChange={handleTabChange}
+              aria-label="SurrealDB tabs"
+              sx={{ height: '100%', '& .MuiTab-root': { height: '100%', fontSize: '0.85rem' }, flexShrink: 0 }}
+            >
+              <Tab label="Surrealist" />
+              <Tab label="Help" />
+            </Tabs>
           </Box>
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            aria-label="SurrealDB tabs"
-            sx={{ minHeight: '40px', '& .MuiTab-root': { minHeight: '40px', fontSize: '0.85rem' }, flexShrink: 0 }}
-          >
-            <Tab label="Surrealist" />
-            <Tab label="Help" />
-          </Tabs>
-
           <Box sx={{ flexGrow: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <TabPanel value={tabValue} index={0}>
               <Surrealist />
